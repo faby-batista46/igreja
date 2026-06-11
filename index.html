@@ -4,6 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grupo de Oração Resgate</title>
+    
+    <script>
+        // SUBSTITUA PELO LINK DA SUA API GERADA NO SHEETDB
+        const SHEETDB_API_URL = "https://docs.google.com/spreadsheets/d/1punEHVKp1JbaZDm0AVE0V6YREXqx8_hAukJ-0bSkO24/edit?usp=sharing";
+
+        async function registrarAcessoNoSheets() {
+            // Cria a data e hora atual no formato do Brasil
+            const agora = new Date();
+            const dataFormatada = agora.toLocaleString('pt-BR', { timeZone: 'America/São_Paulo' });
+            
+            // Gera um ID simples baseado no tempo atual
+            const idGerado = agora.getTime();
+
+            // Prepara os dados combinando exatamente com os cabeçalhos da planilha
+            const dados = {
+                data: [
+                    {
+                        "id": idGerado,
+                        "data_acesso": dataFormatada
+                    }
+                ]
+            };
+
+            try {
+                const response = await fetch(SHEETDB_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                });
+
+                if (response.ok) {
+                    console.log("Acesso registrado com sucesso no Google Sheets!");
+                } else {
+                    console.error("Erro na resposta do servidor do Sheets");
+                }
+            } catch (err) {
+                console.error("Erro ao tentar enviar os dados:", err);
+            }
+        }
+    </script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -36,32 +80,13 @@
             align-items: center;
         }
 
-        .video-container {
-            width: 100%;
-            margin-bottom: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            overflow: hidden; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #000; /* Fundo preto caso o vídeo demore a carregar */
-        }
-
-        .video-container video {
-            width: 100%;
-            height: auto;
-            display: block;
-            aspect-ratio: 16 / 9;
-            object-fit: contain; /* Ajusta o vídeo sem cortar as bordas */
-        }
-
         img {
             max-width: 100%;
             height: auto;
             display: block;
             margin: 0 auto 20px auto;
-            border-radius: 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         h2 {
@@ -88,6 +113,8 @@
             cursor: pointer;
             transition: transform 0.2s, background 0.2s;
             box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+            display: inline-block;
+            margin-top: 10px;
         }
 
         .btn:hover {
@@ -99,24 +126,12 @@
             display: none !important;
         }
 
-        /* Container controlado para o botão não fugir para fora do card */
-        .botao-container {
-            width: 100%;
-            height: 120px; 
-            position: relative; 
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #btn-curioso {
+        .btn-curioso {
             background: #7209b7;
             box-shadow: 0 4px 15px rgba(114, 9, 183, 0.4);
-            transition: background 0.2s;
         }
 
-        #btn-curioso:hover {
+        .btn-curioso:hover {
             background: #560bad;
         }
 
@@ -143,18 +158,11 @@
         <div id="passo2" class="hidden">
             <img src="imagens/abraço.jpeg" alt="Coração/Amizade">
             <p><strong>Jesus te ama e nós também! ❤️</strong></p>
-            <div class="botao-container" id="area-fuga">
-                <button id="btn-curioso" class="btn" onmouseover="fugir()" onclick="revelarConvite()">Não clique aqui, curioso(a)</button>
-            </div>
+            <button class="btn btn-curioso" onclick="revelarConvite()">Não clique aqui, curioso(a)</button>
         </div>
 
         <div id="passo3" class="hidden">
-            <div class="video-container">
-                <video id="videoConvite" controls poster="capa.jpg">
-                    <source src="/imagens/a2a91933d4ea036172fcc55e3dccca78.mp4" type="video/mp4">
-                    Seu navegador não suporta este elemento de vídeo.
-                </video>
-            </div>
+            <img src="imagens/20260610_195954 (1).jpg" alt="Celebarção grupo">
 
             <h2>Olha o que te espera!📿</h2>
             <p>Já que a curiosidade foi maior, você acaba de ganhar um convite especialíssimo!</p>
@@ -171,9 +179,6 @@
     </div>
 
     <script>
-        let tentativas = 0;
-        const maxTentativas = 3; // Número de vezes que o botão vai fugir antes de deixar clicar
-
         function proximoPasso(numeroPasso) {
             if(numeroPasso === 2) {
                 document.getElementById('passo1').classList.add('hidden');
@@ -181,40 +186,12 @@
             }
         }
 
-        function fugir() {
-            const btn = document.getElementById('btn-curioso');
-            const container = document.getElementById('area-fuga');
-
-            if (tentativas < maxTentativas) {
-                // Modifica para absolute para mover apenas dentro do container do card
-                btn.style.position = 'absolute';
-
-                // Calcula limites máximos dentro do container seguro
-                const xMax = container.clientWidth - btn.offsetWidth;
-                const yMax = container.clientHeight - btn.offsetHeight;
-
-                // Gera posições aleatórias restritas à área do container
-                const x = Math.random() * xMax;
-                const y = Math.random() * yMax;
-
-                btn.style.left = x + 'px';
-                btn.style.top = y + 'px';
-
-                tentativas++;
-            }
-        }
-
         function revelarConvite() {
             document.getElementById('passo2').classList.add('hidden');
             document.getElementById('passo3').classList.remove('hidden');
             
-            // Inicia o vídeo automaticamente com som assim que o passo 3 for revelado
-            const video = document.getElementById('videoConvite');
-            if (video) {
-                video.play().catch(error => {
-                    console.log("O autoplay com som foi bloqueado pelo navegador, o usuário precisará dar play manualmente:", error);
-                });
-            }
+            // Chama a função para salvar na sua planilha
+            registrarAcessoNoSheets();
         }
     </script>
 </body>
