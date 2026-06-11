@@ -6,18 +6,12 @@
     <title>Grupo de Oração Resgate</title>
     
     <script>
-        // SUBSTITUA PELO LINK DA SUA API GERADA NO SHEETDB
         const SHEETDB_API_URL = "https://sheetdb.io/api/v1/o7c6q9uuo7g3q";
 
         async function registrarAcessoNoSheets() {
-            // Cria a data e hora atual no formato do Brasil
             const agora = new Date();
             const dataFormatada = agora.toLocaleString('pt-BR', { timeZone: 'America/São_Paulo' });
-            
-            // Gera um ID simples baseado no tempo atual
             const idGerado = agora.getTime();
-
-            // Prepara os dados combinando exatamente com os cabeçalhos da planilha
             const dados = {
                 data: [
                     {
@@ -40,7 +34,7 @@
                 if (response.ok) {
                     console.log("Acesso registrado com sucesso no Google Sheets!");
                 } else {
-                    console.error("Erro na resposta do servidor do Sheets");
+                    console.error("Erro ao enviar dados", err);
                 }
             } catch (err) {
                 console.error("Erro ao tentar enviar os dados:", err);
@@ -189,8 +183,6 @@
         function revelarConvite() {
             document.getElementById('passo2').classList.add('hidden');
             document.getElementById('passo3').classList.remove('hidden');
-            
-            // Chama a função para salvar na sua planilha
             registrarAcessoNoSheets();
         }
     </script>
