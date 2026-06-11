@@ -1,170 +1,221 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Grupo de Oração Resgate</title>
- <style>
- * {
- box-sizing: border-box;
- margin: 0;
- padding: 0;
- font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
- }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupo de Oração Resgate</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
- body {
- background: #f7f9fc;
- display: flex;
- justify-content: center;
- align-items: center;
- min-height: 100vh;
- overflow-x: hidden;
- }
+        body {
+            background: #f7f9fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
- .card {
- background: white;
- padding: 30px;
- border-radius: 20px;
- box-shadow: 0 10px 30px rgba(0,0,0,0.1);
- text-align: center;
- max-width: 450px;
- width: 90%;
- position: relative;
- transition: all 0.5s ease;
- }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            transition: all 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
- img {
- max-width: 100%;
- height: auto;
- border-radius: 15px;
- margin-bottom: 20px;
- box-shadow: 0 4px 10px rgba(0,0,0,0.05);
- }
+        .video-container {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            overflow: hidden; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000; /* Fundo preto caso o vídeo demore a carregar */
+        }
 
- h2 {
- color: #333;
- margin-bottom: 20px;
- font-size: 24px;
- }
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+            aspect-ratio: 16 / 9;
+            object-fit: contain; /* Ajusta o vídeo sem cortar as bordas */
+        }
 
- p {
- color: #555;
- font-size: 18px;
- line-height: 1.6;
- margin-bottom: 20px;
- }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px auto;
+            border-radius: 10px;
+        }
 
- .btn {
- background: #ff5722;
- color: white;
- border: none;
- padding: 12px 25px;
- font-size: 16px;
- font-weight: bold;
- border-radius: 25px;
- cursor: pointer;
- transition: transform 0.2s, background 0.2s;
- box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
- }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
 
- .btn:hover {
- transform: scale(1.05);
- background: #e64a19;
- }
+        p {
+            color: #555;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
 
- /* Classes utilitárias para esconder os passos */
- .hidden {
- display: none !important;
- }
+        .btn {
+            background: #ff5722;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+        }
 
- /* Estilo do botão fujão/curioso */
- #btn-curioso {
- background: #7209b7;
- box-shadow: 0 4px 15px rgba(114, 9, 183, 0.4);
- position: relative;
- z-index: 10;
- }
- #btn-curioso:hover {
- background: #560bad;
- }
+        .btn:hover {
+            transform: scale(1.05);
+            background: #e64a19;
+        }
 
- /* Destaque para o convite final */
- .convite-final {
- border: 2px dashed #ff5722;
- padding: 15px;
- border-radius: 10px;
- background: #fff8f5;
- margin-top: 15px;
- }
- </style>
+        .hidden {
+            display: none !important;
+        }
+
+        /* Container controlado para o botão não fugir para fora do card */
+        .botao-container {
+            width: 100%;
+            height: 120px; 
+            position: relative; 
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #btn-curioso {
+            background: #7209b7;
+            box-shadow: 0 4px 15px rgba(114, 9, 183, 0.4);
+            transition: background 0.2s;
+        }
+
+        #btn-curioso:hover {
+            background: #560bad;
+        }
+
+        .convite-final {
+            border: 2px dashed #ff5722;
+            padding: 15px;
+            border-radius: 10px;
+            background: #fff8f5;
+            margin-top: 15px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
 
- <div class="card">
+    <div class="card">
 
- <div id="passo1">
- <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=500" alt="Jesus">
- <h2> Temos um Convite Especial!✨<br>Você tem um momento?</h2>
- <button class="btn" onclick="proximoPasso(2)">Clique aqui</button>
- </div>
+        <div id="passo1">
+            <img src="imagens/cruz.jpg" alt="Cruz">
+            <h2>Temos um Convite Especial!✨<br>Você tem um momento?</h2>
+            <button class="btn" onclick="proximoPasso(2)">Clique aqui</button>
+        </div>
 
- <div id="passo2" class="hidden">
- <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=500" alt="Coração/Amizade">
- <p><strong>Jesus te ama e nós também! ❤️</strong></p>
- <div style="height: 80px; position: relative; margin-top: 20px;">
- <button id="btn-curioso" class="btn" onmouseover="fugir()" onclick="revelarConvite()">Não clique aqui, curioso(a)</button>
- </div>
- </div>
+        <div id="passo2" class="hidden">
+            <img src="imagens/abraço.jpeg" alt="Coração/Amizade">
+            <p><strong>Jesus te ama e nós também! ❤️</strong></p>
+            <div class="botao-container" id="area-fuga">
+                <button id="btn-curioso" class="btn" onmouseover="fugir()" onclick="revelarConvite()">Não clique aqui, curioso(a)</button>
+            </div>
+        </div>
 
- <div id="passo3" class="hidden">
- <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=500" alt="Festa e Alegria">
- <h2>Olha o que te espera! 🎉</h2>
- <p>Já que a curiosidade foi maior, você acaba de ganhar um convite especialíssimo!</p>
+        <div id="passo3" class="hidden">
+            <div class="video-container">
+                <video id="videoConvite" controls poster="capa.jpg">
+                    <source src="/imagens/a2a91933d4ea036172fcc55e3dccca78.mp4" type="video/mp4">
+                    Seu navegador não suporta este elemento de vídeo.
+                </video>
+            </div>
 
- <div class="convite-final">
- <p><strong>🔥 Grande Grupo de Oração 🎉</strong></p>
- <p>📅 Quarta-feira, dia 10/06</p>
- <p>⏰ Às 19h30</p>
- <p>📍 Na Capela Desatadora dos Nós</p>
- </div>
- <p style="margin-top: 15px; font-size: 15px; color: #777;">Venha, chame seus amigos e amigas para louvar ao Senhor! Vamos comemorar juntos!</p>
- </div>
+            <h2>Olha o que te espera!📿</h2>
+            <p>Já que a curiosidade foi maior, você acaba de ganhar um convite especialíssimo!</p>
 
- </div>
+            <div class="convite-final">
+                <p><strong>🔥Grupo de Oração Resgate!🙏🏼</strong></p>
+                <p>📅 Quarta-feira, dia 24/06</p>
+                <p>⏰ Às 19h30</p>
+                <p>📍 Na Capela Nossa Senhora Desatadora dos Nós<br> Qd 01 Conj. G lote 30 Fazendinha - Itapoã - DF</p>
+            </div>
+            <p style="margin-top: 15px; font-size: 15px; color: #777;">Venha, chame seus amigos e amigas para louvar ao Senhor!</p>
+        </div>
 
- <script>
- let tentativas = 0;
+    </div>
 
- function proximoPasso(numeroPasso) {
- if(numeroPasso === 2) {
- document.getElementById('passo1').classList.add('hidden');
- document.getElementById('passo2').classList.remove('hidden');
- }
- }
+    <script>
+        let tentativas = 0;
+        const maxTentativas = 3; // Número de vezes que o botão vai fugir antes de deixar clicar
 
- // Função que faz o botão flutuar/fugir do mouse
- function fugir() {
- const btn = document.getElementById('btn-curioso');
+        function proximoPasso(numeroPasso) {
+            if(numeroPasso === 2) {
+                document.getElementById('passo1').classList.add('hidden');
+                document.getElementById('passo2').classList.remove('hidden');
+            }
+        }
 
- // O botão vai fugir 4 vezes para irritar a pessoa de forma divertida, depois ele deixa clicar
- if (tentativas < 4) {
- // Gera posições aleatórias na tela
- const x = Math.random() * (window.innerWidth - btn.offsetWidth - 50);
- const y = Math.random() * (window.innerHeight - btn.offsetHeight - 50);
+        function fugir() {
+            const btn = document.getElementById('btn-curioso');
+            const container = document.getElementById('area-fuga');
 
- // Transforma o botão em elemento flutuante na tela
-btn.style.position = 'fixed';
-btn.style.left = x + 'px';
-btn.style.top = y + 'px';
+            if (tentativas < maxTentativas) {
+                // Modifica para absolute para mover apenas dentro do container do card
+                btn.style.position = 'absolute';
 
- tentativas++;
- }
- }
+                // Calcula limites máximos dentro do container seguro
+                const xMax = container.clientWidth - btn.offsetWidth;
+                const yMax = container.clientHeight - btn.offsetHeight;
 
- function revelarConvite() {
- document.getElementById('passo2').classList.add('hidden');
- document.getElementById('passo3').classList.remove('hidden');
- }
- </script>
+                // Gera posições aleatórias restritas à área do container
+                const x = Math.random() * xMax;
+                const y = Math.random() * yMax;
+
+                btn.style.left = x + 'px';
+                btn.style.top = y + 'px';
+
+                tentativas++;
+            }
+        }
+
+        function revelarConvite() {
+            document.getElementById('passo2').classList.add('hidden');
+            document.getElementById('passo3').classList.remove('hidden');
+            
+            // Inicia o vídeo automaticamente com som assim que o passo 3 for revelado
+            const video = document.getElementById('videoConvite');
+            if (video) {
+                video.play().catch(error => {
+                    console.log("O autoplay com som foi bloqueado pelo navegador, o usuário precisará dar play manualmente:", error);
+                });
+            }
+        }
+    </script>
 </body>
 </html>
